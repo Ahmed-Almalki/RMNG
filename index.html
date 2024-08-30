@@ -22169,63 +22169,54 @@ body {
     </head>
     <body class="sb-nav-fixed">
         <div id="Login">
-		
-    <title>Trigger Power Automate Flow</title>
-<script type="text/javascript" src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"></script></head>
+    <script src="https://alcdn.msauth.net/browser/2.19.1/js/msal-browser.min.js"></script>
+    <h1>Welcome to Makkah Hotel and Towers Restaurant Manager App</h1>
     <button id="triggerFlow">Trigger Flow</button>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            if (typeof msal === 'undefined') {
-                console.error("MSAL library not loaded.");
-                return;
+        const msalConfig = {
+            auth: {
+                clientId: 'e0acb094-b083-4a26-9899-b619fd4fbe35', // Your client ID
+                authority: 'https://login.microsoftonline.com/d6d28ff2-102e-428d-bca8-101df3e61808', // Your tenant ID
+                redirectUri: window.location.origin,
             }
+        };
 
-            const msalConfig = {
-                auth: {
-                    clientId: 'e0acb094-b083-4a26-9899-b619fd4fbe35',
-                    authority: 'https://login.microsoftonline.com/d6d28ff2-102e-428d-bca8-101df3e61808',
-                    redirectUri: window.location.origin,
+        const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+        async function getAccessToken() {
+            try {
+                const loginResponse = await msalInstance.loginPopup();
+                const tokenResponse = await msalInstance.acquireTokenSilent({
+                    scopes: ['https://logic.azure.com/.default'], // Use appropriate scopes for your flow
+                });
+                return tokenResponse.accessToken;
+            } catch (error) {
+                console.error("Error acquiring access token:", error);
+                throw error;
+            }
+        }
+
+        document.getElementById('triggerFlow').addEventListener('click', async () => {
+            try {
+                const accessToken = await getAccessToken();
+                const flowUrl = 'https://prod-218.westeurope.logic.azure.com:443/workflows/1be2b97faaec4b7fa52470910fd1b12e/triggers/manual/paths/invoke?api-version=2016-06-01';
+
+                const response = await fetch(flowUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Flow triggered successfully:", data);
+                } else {
+                    console.error("Error triggering flow:", response.status, await response.text());
                 }
-            };
-
-            const msalInstance = new msal.PublicClientApplication(msalConfig);
-
-            document.getElementById('triggerFlow').addEventListener('click', () => {
-                console.log("Button clicked, initiating login...");
-                msalInstance.loginPopup()
-                    .then(loginResponse => {
-                        console.log('Logged in:', loginResponse);
-                        return triggerFlow();
-                    })
-                    .catch(error => {
-                        console.error('Login error:', error);
-                    });
-            });
-
-            async function triggerFlow() {
-                try {
-                    const accessTokenResponse = await msalInstance.acquireTokenSilent({
-                        scopes: ['https://management.azure.com/.default'],
-                    });
-
-                    const flowUrl = 'https://prod-218.westeurope.logic.azure.com:443/workflows/1be2b97faaec4b7fa52470910fd1b12e/triggers/manual/paths/invoke?api-version=2016-06-01';
-                    const response = await fetch(flowUrl, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${accessTokenResponse.accessToken}`,
-                        },
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        console.log("Flow triggered successfully:", data);
-                    } else {
-                        console.error("Error triggering flow:", response.status, await response.text());
-                    }
-                } catch (error) {
-                    console.error("Error during token acquisition or flow triggering:", error);
-                }
+            } catch (error) {
+                console.error("Error:", error);
             }
         });
     </script>
