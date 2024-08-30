@@ -22211,7 +22211,7 @@ body {
 
                     const flowUrl = 'https://prod-218.westeurope.logic.azure.com:443/workflows/1be2b97faaec4b7fa52470910fd1b12e/triggers/manual/paths/invoke?api-version=2016-06-01';
                     const response = await fetch(flowUrl, {
-                        method: 'POST',
+                        method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${accessTokenResponse.accessToken}`,
                         },
