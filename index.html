@@ -22169,8 +22169,10 @@ body {
     </head>
     <body class="sb-nav-fixed">
         <div id="Login">
-<script type="text/javascript" src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"></script> 
-		<h1>Welcome to Makkah Hotel and Towers Restaurant Manager App</h1>
+
+    <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"></script>
+
+    <h1>Welcome to Makkah Hotel and Towers Restaurant Manager App</h1>
     <button id="triggerFlow">Trigger Flow</button>
 
     <script>
@@ -22185,8 +22187,16 @@ body {
         const msalInstance = new msal.PublicClientApplication(msalConfig);
 
         async function getAccessToken() {
+            const accounts = msalInstance.getAllAccounts();
+            if (accounts.length === 0) {
+                // No accounts found, initiate login
+                await msalInstance.loginPopup();
+            }
+
+            const activeAccount = msalInstance.getAllAccounts()[0];
+            msalInstance.setActiveAccount(activeAccount);
+
             try {
-                const loginResponse = await msalInstance.loginPopup();
                 const tokenResponse = await msalInstance.acquireTokenSilent({
                     scopes: ['https://logic.azure.com/.default'], // Use appropriate scopes for your flow
                 });
