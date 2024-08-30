@@ -22198,7 +22198,7 @@ body {
 
             try {
                 const tokenResponse = await msalInstance.acquireTokenSilent({
-                    scopes: ['https://logic.azure.com/.default'], // Use appropriate scopes for your flow
+                    scopes: ['https://management.azure.com/.default'], // Use appropriate scopes for your flow
                 });
                 return tokenResponse.accessToken;
             } catch (error) {
