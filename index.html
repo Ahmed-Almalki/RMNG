@@ -22169,69 +22169,90 @@ body {
     </head>
     <body class="sb-nav-fixed">
         <div id="Login">
+            
+            <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"></script>
+            <h1>Welcome to Makkah Hotel and Towers Restaurant Manager App</h1>
 
-    <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"></script>
+<button id="triggerFlow">Trigger Flow</button>
 
-    <h1>Welcome to Makkah Hotel and Towers Restaurant Manager App</h1>
-    <button id="triggerFlow">Trigger Flow</button>
+            <script>
+    const msalConfig = {
+        auth: {
+            clientId: 'e0acb094-b083-4a26-9899-b619fd4fbe35', // Your client ID
+            authority: 'https://login.microsoftonline.com/d6d28ff2-102e-428d-bca8-101df3e61808', // Your tenant ID
+            redirectUri: window.location.origin,
+        }
+    };
 
-    <script>
-        const msalConfig = {
-            auth: {
-                clientId: 'e0acb094-b083-4a26-9899-b619fd4fbe35', // Your client ID
-                authority: 'https://login.microsoftonline.com/d6d28ff2-102e-428d-bca8-101df3e61808', // Your tenant ID
-                redirectUri: window.location.origin,
-            }
-        };
+    const msalInstance = new msal.PublicClientApplication(msalConfig);
 
-        const msalInstance = new msal.PublicClientApplication(msalConfig);
-
-        async function getAccessToken() {
-            const accounts = msalInstance.getAllAccounts();
-            if (accounts.length === 0) {
-                // No accounts found, initiate login
-                await msalInstance.loginPopup();
-            }
-
-            const activeAccount = msalInstance.getAllAccounts()[0];
-            msalInstance.setActiveAccount(activeAccount);
-
-            try {
-                const tokenResponse = await msalInstance.acquireTokenSilent({
-                    scopes: ['https://management.azure.com/.default'], // Use appropriate scopes for your flow
-                });
-                return tokenResponse.accessToken;
-            } catch (error) {
-                console.error("Error acquiring access token:", error);
-                throw error;
-            }
+    async function getAccessToken() {
+        const accounts = msalInstance.getAllAccounts();
+        if (accounts.length === 0) {
+            await msalInstance.loginPopup();
         }
 
-        document.getElementById('triggerFlow').addEventListener('click', async () => {
-            try {
-                const accessToken = await getAccessToken();
-                const flowUrl = 'https://prod-218.westeurope.logic.azure.com:443/workflows/1be2b97faaec4b7fa52470910fd1b12e/triggers/manual/paths/invoke?api-version=2016-06-01';
+        const activeAccount = msalInstance.getAllAccounts()[0];
+        msalInstance.setActiveAccount(activeAccount);
 
-                const response = await fetch(flowUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                });
+        try {
+            const tokenResponse = await msalInstance.acquireTokenSilent({
+                scopes: ['https://service.flow.microsoft.com//.default'], // Ensure correct scope
+            });
+            
+            // **Extract Claims** - You can decode the JWT to check claims
+            const jwtPayload = JSON.parse(atob(tokenResponse.accessToken.split('.')[1]));
+            
+            // Optional: Log extracted claims for verification
+            console.log("JWT Claims:", jwtPayload);
 
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log("Flow triggered successfully:", data);
-                } else {
-                    console.error("Error triggering flow:", response.status, await response.text());
-                }
-            } catch (error) {
-                console.error("Error:", error);
+            return tokenResponse.accessToken;
+        } catch (error) {
+            console.error("Error acquiring access token:", error);
+            if (error instanceof msal.InteractionRequiredAuthError) {
+                await msalInstance.loginPopup();
+                return getAccessToken(); // Retry
             }
-        });
-    </script>
-		
-	</div>
+            throw error;
+        }
+    }
+
+    document.getElementById('triggerFlow').addEventListener('click', async () => {
+        try {
+            const accessToken = await getAccessToken();
+            const flowUrl = 'https://prod-218.westeurope.logic.azure.com:443/workflows/1be2b97faaec4b7fa52470910fd1b12e/triggers/manual/paths/invoke?api-version=2016-06-01';
+
+            Loading();
+                            const xhr = new XMLHttpRequest();
+                           xhr.open("GET", flowUrl,true);
+                           xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+                            xhr.onload = () => {
+                              if (xhr.readyState == 4 && xhr.status == 200) {
+                                temp = xhr.responseText;
+                                temp = replaceSecondOccurrence(temp, '<?xml version="1.0" encoding="UTF-8"?>', "");
+                                temp = replaceSecondOccurrence(temp, '<!-- Generated by Oracle Reports version 12.2.1.3.0 -->', "");
+                                temp = replaceSecondOccurrence(temp, '<PKGFORECAST>', "");
+                                temp = temp.replaceAll("</PKGFORECAST>", "").replaceAll("</Main>", "</Main></PKGFORECAST>");
+                                xmlDoc = parser.parseFromString(temp, "text/xml");
+                                if (document.getElementById('i1diwy').value == '') {
+                                  DisplayResult("inis");
+                                } else {
+                                  DisplayResult(document.getElementById('i1diwy').value);
+                                }
+                                showPage();
+                              } else {
+                                console.log(`Error: ${xhr.status}`);
+                              }
+                            };
+                            xhr.send();
+                        }            catch (error) {
+            console.error("Error:", error);
+        }
+    });
+</script>
+
+
+        </div>
         <div id="loader" style="display:none;" ></div>
         <div id="MainLoader" style="display:none;">   
         <main>
@@ -22440,7 +22461,7 @@ body {
                 
                             Loading();
                             const xhr = new XMLHttpRequest();
-                            xhr.open("GET", "https://prod-218.westeurope.logic.azure.com:443/workflows/1be2b97faaec4b7fa52470910fd1b12e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Xfl22yPnny77Aam9JEzXnjSNqp8-mXSLW5QkBhZUxSk");
+                           xhr.open("GET", "https://prod-218.westeurope.logic.azure.com:443/workflows/1be2b97faaec4b7fa52470910fd1b12e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Xfl22yPnny77Aam9JEzXnjSNqp8-mXSLW5QkBhZUxSk");
                             xhr.onload = () => {
                               if (xhr.readyState == 4 && xhr.status == 200) {
                                 temp = xhr.responseText;
@@ -22464,8 +22485,6 @@ body {
                             
                           };
                           //Start the App
-                          
-                          GetRoomDetail();
                 
                           function DisplayResult(RoomNmuber) {
                             SetCurrentPeriod();
