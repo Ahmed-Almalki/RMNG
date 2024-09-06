@@ -22194,7 +22194,7 @@ body {
     };
 
     const msalInstance = new msal.PublicClientApplication(msalConfig);
-    const LoggedIn_User;
+    LoggedIn_User = "";
 
     async function getAccessToken() {
         const accounts = msalInstance.getAllAccounts();
