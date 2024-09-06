@@ -22168,12 +22168,21 @@ body {
         </style>
     </head>
     <body class="sb-nav-fixed">
-        <div id="Login">
+        <div id="Login" class="col-md-12 columnBlockLayout"
+        style="flex-grow: 1; display: flex; flex-direction: column; min-width: 250px; word-break: break-word;">
             
             <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"></script>
-            <h1>Welcome to Makkah Hotel and Towers Restaurant Manager App</h1>
+            <div id="ihwpo" class="col-md-12"
+                    style="flex-grow: 1; display: flex; flex-direction: column; min-width: 250px; word-break: break-word;"><img
+                      src="https://i.ibb.co/hfM5snn/Logo.jpg" id="i1hsb" alt="LOGO"
+                      style="width: 10%; height: 100%; min-height: 105.188px; min-width: 105.188px; margin-left: auto; margin-right: auto; box-shadow: 0px 0px 6px rgb(0, 0, 0); border: 0 solid #c8c6c4; border-radius: 11px 11px 11px 11px;" />
+                      <br>
+                      <br>
+                  </div>
+            <p style="text-align: center; box-shadow: 0px 0px 0px #000000; text-shadow: 0px 0px 2px #000000; font-family: Georgia; letter-spacing: 2px;">
+            Welcome to Makkah Hotel and Towers Restaurant Manager App Please Log In</p>
 
-<button id="triggerFlow">Trigger Flow</button>
+            <button id="LoginButton" class="button1" style="margin-left: auto; margin-right: auto;"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/microsoft-icon.png" style="width:40px;height:40px;"> Login</button>
 
             <script>
     const msalConfig = {
@@ -22370,6 +22379,7 @@ body {
                           //loader
                           function showPage() {
                             document.getElementById("loader").style.display = "none";
+                            document.getElementById("Login").style.display = "none";
                             document.getElementById("MainLoader").style.display = "block";
                             document.getElementById("i31ol").style.display = "none";
                           }
@@ -22485,7 +22495,7 @@ body {
                             
                           };
                           //Start the App
-                
+                          
                           function DisplayResult(RoomNmuber) {
                             SetCurrentPeriod();
                             found = false
