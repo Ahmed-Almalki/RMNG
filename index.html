@@ -22194,6 +22194,7 @@ body {
     };
 
     const msalInstance = new msal.PublicClientApplication(msalConfig);
+    const LoggedIn_User;
 
     async function getAccessToken() {
         const accounts = msalInstance.getAllAccounts();
@@ -22211,7 +22212,9 @@ body {
             
             // **Extract Claims** - You can decode the JWT to check claims
             const jwtPayload = JSON.parse(atob(tokenResponse.accessToken.split('.')[1]));
-            
+
+
+            LoggedIn_User = jwtPayload.upn;
             // Optional: Log extracted claims for verification
             console.log("JWT Claims:", jwtPayload);
 
@@ -22387,7 +22390,7 @@ body {
                           function Loading() {
                             document.getElementById("loader").style.display = "block";
                             document.getElementById("MainLoader").style.display = "none";
-				                              document.getElementById("Login").style.display = "none";
+                            document.getElementById("Login").style.display = "none";
                           }
                           function Login() {
 
