@@ -22194,7 +22194,7 @@ body {
     };
 
     const msalInstance = new msal.PublicClientApplication(msalConfig);
-    LoggedIn_User = "";
+    const LoggedIn_User;
 
     async function getAccessToken() {
         const accounts = msalInstance.getAllAccounts();
@@ -22504,7 +22504,16 @@ body {
                             SetCurrentPeriod();
                             found = false
                             if (RoomNmuber == "inis") {
-                
+                                for (let jndex = xmlDoc.getElementsByTagName("ResID").length - 1; jndex >= 0; jndex--) {
+                                    MonthdateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getMonth();
+                                    MonthdateconvNow = new Date().getMonth();
+                                    DaydateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getDate();
+                                    DaydateconvNow = new Date().getDate();
+                                    dateconv = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue));
+                                    formattedStringDate = dateconv.toLocaleString();
+
+                                    let newRow = [xmlDoc.getElementsByTagName("HostName")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("RoomNumber")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ResID")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Period")[jndex].childNodes[0].nodeValue,formattedStringDate];
+                                    dataTable.rows.add(newRow);}
                             } else {
                               document.getElementById("i31ol").style.display = "block";
                               document.getElementById('i18ek').hidden = true;
@@ -22526,7 +22535,6 @@ body {
                                   ChEntered = 0;
                                   enter = false
                                   found = true
-                                 // document.getElementById('HisTable').innerHTML = '<thead> <tr scope="col"> <th>HostName</th> <th>Restaurant</th> <th>Room Number </th> <th>Reservation Number </th> <th>Adult Enterd</th> <th>Children Entered</th> <th>Time Of Entry</th> <th>Period</th> </tr> </thead> <tbody> <tr> </tr> </tbody> <tfoot> <tr> </tr> </tfoot>'
 
                                   for (let jndex = xmlDoc.getElementsByTagName("ResID").length - 1; jndex >= 0; jndex--) {
                                     MonthdateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getMonth();
@@ -22542,29 +22550,7 @@ body {
                                     formattedStringDate = dateconv.toLocaleString();
 
                                     let newRow = [xmlDoc.getElementsByTagName("HostName")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("RoomNumber")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ResID")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Period")[jndex].childNodes[0].nodeValue,formattedStringDate];
-dataTable.rows.add(newRow);
-                                   /* var tbodyRef = document.getElementById('HisTable').getElementsByTagName('tbody')[0];
-                                    var newRow = tbodyRef.insertRow();
-                                    newCell = newRow.insertCell();
-                                    newCell.appendChild(document.createTextNode(xmlDoc.getElementsByTagName("HostName")[jndex].childNodes[0].nodeValue));
-                                    newCell = newRow.insertCell();
-                                    newCell.appendChild(document.createTextNode(xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue));
-                                    newCell = newRow.insertCell();
-                                    newCell.appendChild(document.createTextNode(xmlDoc.getElementsByTagName("RoomNumber")[jndex].childNodes[0].nodeValue));
-                                    newCell = newRow.insertCell();
-                                    newCell.appendChild(document.createTextNode(xmlDoc.getElementsByTagName("ResID")[jndex].childNodes[0].nodeValue));
-                                    newCell = newRow.insertCell();
-                                    newCell.appendChild(document.createTextNode(xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue));
-                                    newCell = newRow.insertCell();
-                                    newCell.appendChild(document.createTextNode(xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue));
-                                    newCell = newRow.insertCell();
-                                    dateconv = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue));
-                                    formattedString = dateconv.toLocaleString();
-                                    newText = document.createTextNode(formattedString);
-                                    newCell.appendChild(newText);
-                                    newCell = newRow.insertCell();
-                                    newCell.appendChild(document.createTextNode(xmlDoc.getElementsByTagName("Period")[jndex].childNodes[0].nodeValue));
-                                  */}
+                                    dataTable.rows.add(newRow);
                                   if (enter) {
                                     document.getElementById('id41u1112').innerHTML = document.getElementById('id41u11').innerHTML - AdEntered;
                                     document.getElementById('id41u2212').innerHTML = document.getElementById('id41u22').innerHTML - ChEntered;
@@ -22589,7 +22575,16 @@ dataTable.rows.add(newRow);
                               if (!found) {
                                 document.getElementById('i18ek').hidden = false;
                                 alert("Room Not Found")
-                
+                                for (let jndex = xmlDoc.getElementsByTagName("ResID").length - 1; jndex >= 0; jndex--) {
+                                    MonthdateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getMonth();
+                                    MonthdateconvNow = new Date().getMonth();
+                                    DaydateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getDate();
+                                    DaydateconvNow = new Date().getDate();
+                                    dateconv = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue));
+                                    formattedStringDate = dateconv.toLocaleString();
+
+                                    let newRow = [xmlDoc.getElementsByTagName("HostName")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("RoomNumber")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ResID")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Period")[jndex].childNodes[0].nodeValue,formattedStringDate];
+                                    dataTable.rows.add(newRow);}
                             }
                             }
                           }
