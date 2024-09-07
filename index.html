@@ -22386,16 +22386,7 @@ body {
                             document.getElementById("loader").style.display = "block";
                             document.getElementById("MainLoader").style.display = "none";
                             document.getElementById("Login").style.display = "none";
-                          }
-                          function Login() {
-
-                          }
-                          function UpdateHistoryTable() {
-                
-                
-                          }
-                
-                
+                          }          
                 
                           function UpdateRES() {
                 
@@ -22499,16 +22490,18 @@ body {
                             found = false
                             if (RoomNmuber == "inis") {
                                 for (let jndex = xmlDoc.getElementsByTagName("ResID").length - 1; jndex >= 0; jndex--) {
-                                    MonthdateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getMonth();
-                                    MonthdateconvNow = new Date().getMonth();
-                                    DaydateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getDate();
-                                    DaydateconvNow = new Date().getDate();
                                     dateconv = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue));
                                     formattedStringDate = dateconv.toLocaleString();
 
                                     let newRow = [xmlDoc.getElementsByTagName("HostName")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("RoomNumber")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ResID")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Period")[jndex].childNodes[0].nodeValue,formattedStringDate];
                                     dataTable.rows.add(newRow);}
                             } else {
+                                dataTable.destroy()
+                                  dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
+    searchable: false,
+    fixedHeight: true,
+})
+
                               document.getElementById("i31ol").style.display = "block";
                               document.getElementById('i18ek').hidden = true;
                               document.getElementById('i04kl').style.marginTop = "0px";
@@ -22529,7 +22522,6 @@ body {
                                   ChEntered = 0;
                                   enter = false
                                   found = true
-
                                   for (let jndex = xmlDoc.getElementsByTagName("ResID").length - 1; jndex >= 0; jndex--) {
                                     MonthdateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getMonth();
                                     MonthdateconvNow = new Date().getMonth();
@@ -22566,23 +22558,14 @@ body {
                 
                                 }
                               }
+                            }
                               if (!found) {
                                 document.getElementById('i18ek').hidden = false;
                                 alert("Room Not Found")
-                                for (let jndex = xmlDoc.getElementsByTagName("ResID").length - 1; jndex >= 0; jndex--) {
-                                    MonthdateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getMonth();
-                                    MonthdateconvNow = new Date().getMonth();
-                                    DaydateconvRes = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue)).getDate();
-                                    DaydateconvNow = new Date().getDate();
-                                    dateconv = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue));
-                                    formattedStringDate = dateconv.toLocaleString();
-
-                                    let newRow = [xmlDoc.getElementsByTagName("HostName")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("RoomNumber")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ResID")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue, xmlDoc.getElementsByTagName("Period")[jndex].childNodes[0].nodeValue,formattedStringDate];
-                                dataTable.rows.add(newRow);}
-                                }
                             }
                             }
-                          }
+                          
+                        }
                         </script>     
                                     <input type="text" id="i1diwy" placeholder="Please Enter Room Number"
                           style="min-width: 350px; text-align: center; box-shadow: 0px 0px 13px #000000; text-shadow: 0px 0px 0px #000000; border: 0 solid #FFFFFF; border-radius: 14px 14px 14px 14px; font-size: 19px; letter-spacing: 4px; line-height: 30px;" />
@@ -22688,7 +22671,7 @@ body {
                         </div>
                     </div>
            <script>
-                                        const dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
+                                        dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
     searchable: false,
     fixedHeight: true,
 })
