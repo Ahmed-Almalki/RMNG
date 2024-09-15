@@ -501,7 +501,7 @@
     </Reservation>
     `;
         AvalDate.replaceAll("\n", "").replaceAll("\t", "").replaceAll(" ", "");
-        if ((document.getElementById('i1diwy1').value <= document.getElementById('id41u11').innerHTML) && (document.getElementById('i1diwy2').value <= document.getElementById('id41u22').innerHTML) && (document.getElementById('i1diwy1').value != "") && (document.getElementById('i1diwy2').value != "") && (document.getElementById('i1diwy1').value != "0" || document.getElementById('i1diwy2').value != "0") && document.getElementById('id41u11') >= 0 && document.getElementById('id41u22') >= 0) {
+        if ((document.getElementById('i1diwy1').value <= document.getElementById('id41u11').innerHTML) && (document.getElementById('i1diwy2').value <= document.getElementById('id41u22').innerHTML) && (document.getElementById('i1diwy1').value != "") && (document.getElementById('i1diwy2').value != "") && (document.getElementById('i1diwy1').value != "0" || document.getElementById('i1diwy2').value != "0")) {
             Loading();
             const accessToken = await getAccessToken();
             const xhr1 = new XMLHttpRequest();
