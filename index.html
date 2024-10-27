@@ -121,15 +121,20 @@
 
         // File IDs
         const fileIds = [
-            '01d7fc7c-dfba-4685-84c8-6b90a4c124f3',
-            'a13d55f5-9e97-4183-a57c-0938192b85c2',
-            'f982820d-17cf-4f65-937f-e566102fbcf4'
+            'u!aHR0cHM6Ly9tYWtobnQtbXkuc2hhcmVwb2ludC5jb20vOnQ6L2cvcGVyc29uYWwvYWFsbWFsa2lfbWFra2FoLWhudF9jb20vRVh6ODF3RzYzNFZHaE1ocmtLVEJKUE1CWjVxX1JGNG9JTlRfcEhQdVZVUDhZZw',
+            'u!aHR0cHM6Ly9tYWtobnQtbXkuc2hhcmVwb2ludC5jb20vOnQ6L2cvcGVyc29uYWwvYWFsbWFsa2lfbWFra2FoLWhudF9jb20vRWZWVlBhR1hub05CcFh3Sk9Ca3JoY0lCMzdOVkZIajFfeWZ1bWt0WFpGV2J2dw',
+            'u!aHR0cHM6Ly9tYWtobnQtbXkuc2hhcmVwb2ludC5jb20vOnQ6L2cvcGVyc29uYWwvYWFsbWFsa2lfbWFra2FoLWhudF9jb20vRVEyQ2d2blBGMlZQazNfbFpoQXZ2UFFCZkw5Q0JwWjZwWjd3bnNYVGlOQUk4QQ'
         ];
 
         // Fetch all files
         const contents = await Promise.all(
+            
             fileIds.map(id => 
-                client.api(`/me/drive/items/${id}/content`).get()
+            
+            client.api(`/shares/${id}/driveItem/content`).get()
+
+               // client.api(`/shares/drive/items/${id}/content`).get()
+                //old  client.api(`/me/drive/items/${id}/content`).get()
             )
         );
 
@@ -352,6 +357,9 @@ new Chart(ctx, {
                         </div>
                     </div>
                 </div>
+                <button onclick=" async function logout() {await msalInstance.logoutPopup(); location.reload()}; logout();">
+                    Logout
+                </button>
             </div>
         </main>
 </body>
@@ -587,7 +595,7 @@ new Chart(ctx, {
         });
 
         // First, get the current content
-        const currentContent = await client.api(`/me/drive/items/${itemId}/content`)
+        const currentContent = await client.api(`/shares/${itemId}/driveItem/content`)
             .get();
 
         // Append new content
@@ -595,7 +603,7 @@ new Chart(ctx, {
 
         // Upload the updated content
         const blob = new Blob([updatedContent], { type: 'text/plain' });
-        await client.api(`/me/drive/items/${itemId}/content`)
+        await client.api(`/shares/${itemId}/driveItem/content`)
             .put(blob);
 
         return { success: true, message: 'Content appended successfully' };
@@ -652,9 +660,9 @@ new Chart(ctx, {
     </Reservation>
     `;
         AvalDate.replaceAll("\n", "").replaceAll("\t", "").replaceAll(" ", "");
-        if ((document.getElementById('i1diwy1').value <= document.getElementById('id41u11').innerHTML) && (document.getElementById('i1diwy2').value <= document.getElementById('id41u22').innerHTML) && (document.getElementById('i1diwy1').value != "") && (document.getElementById('i1diwy2').value != "") && (document.getElementById('i1diwy1').value != "0" || document.getElementById('i1diwy2').value != "0") && (document.getElementById('id41u11').innerHTML >= 0 && document.getElementById('id41u22').innerHTML >= 0)) {
+        if ((document.getElementById('i1diwy1').value <= document.getElementById('id41u11').innerHTML) && (document.getElementById('i1diwy2').value <= document.getElementById('id41u22').innerHTML) && (document.getElementById('i1diwy1').value != "") && (document.getElementById('i1diwy2').value != "") && (document.getElementById('i1diwy1').value != "0" || document.getElementById('i1diwy2').value != "0") && (document.getElementById('i1diwy1').value >= 0 && document.getElementById('i1diwy2').value >= 0)) {
             Loading();
-            WriteResult=await appendToOneDriveFile(AvalDate, 'f982820d-17cf-4f65-937f-e566102fbcf4');
+            WriteResult=await appendToOneDriveFile(AvalDate, 'u!aHR0cHM6Ly9tYWtobnQtbXkuc2hhcmVwb2ludC5jb20vOnQ6L2cvcGVyc29uYWwvYWFsbWFsa2lfbWFra2FoLWhudF9jb20vRVEyQ2d2blBGMlZQazNfbFpoQXZ2UFFCZkw5Q0JwWjZwWjd3bnNYVGlOQUk4QQ');
                 if(WriteResult.success){
                          GetRoomDetail(); // Wait for getdetailed() function to complete
                         document.getElementById('id41u1112').innerHTML = parseInt(document.getElementById('id41u1112').innerHTML) - parseInt(document.getElementById('i1diwy1').value);
@@ -665,7 +673,7 @@ new Chart(ctx, {
                         document.getElementById('i1diwy2').value = 0;
                         showPage();
                 }else{
-                    
+
 
                 }
 
