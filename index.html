@@ -153,6 +153,7 @@
         xmlDoc = parser.parseFromString(temp, 'text/xml');
         const searchValue = document.getElementById('i1diwy').value;
         DisplayResult(searchValue || 'inis');
+        Table_Update();
         showPage();
 
     } catch (error) {
@@ -315,33 +316,6 @@ function timeinterval() {
                             <div class="card-header">Entries History</div>
                             <div class="card-body">
                                 <canvas id="chartjs-bar">
-<script>
-
-const ctx = document.getElementById('chartjs-bar');
-
-const data = {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    datasets: [
-        { label: 'Lagenda', data: [12, 19, 3, 5, 2, 8, 7], backgroundColor: '#CB4335' },
-        { label: 'Alfayha', data: [15, 12, 6, 2, 5, 4, 3], backgroundColor: '#1F618D' },
-        { label: 'Alnoor', data: [3, 5, 8, 12, 7, 4, 6], backgroundColor: '#F1C40F' },
-        { label: 'Alandalus', data: [5, 2, 12, 8, 3, 5, 8], backgroundColor: '#27AE60' },
-        { label: 'Alamber', data: [2, 3, 5, 7, 8, 9, 10], backgroundColor: '#884EA0' }
-    ]
-};
-
-// Create the chart
-new Chart(ctx, {
-    type: 'bar',
-    data: data,
-    options: {
-        responsive: true,
-        scales: {
-            x: { stacked: true },
-            y: { beginAtZero: true, stacked: true }
-        }
-    }
-});</script>
                                 </canvas>
                             </div>
                         </div>
@@ -351,7 +325,6 @@ new Chart(ctx, {
                             <div class="card-header">Entries History</div>
                             <div class="card-body">
                                 <canvas id="chartjs-bar1">
-
                                 </canvas>
                             </div>
                         </div>
@@ -581,7 +554,7 @@ new Chart(ctx, {
                 }
             }
         }
-        Table_Update();
+        //Table_Update();
     }
     }
 
@@ -631,7 +604,17 @@ new Chart(ctx, {
         }
         document.getElementById("i1diwy33").value = CurrentPeriod;
     }
+     statc_Lagenda=[0,0,0,0,0,0,0];
+     statc_Alfayha=[0,0,0,0,0,0,0];
+     statc_Alnoor=[0,0,0,0,0,0,0];
+     statc_Alandalus=[0,0,0,0,0,0,0];
+     statc_Alamber=[0,0,0,0,0,0,0];
     function Table_Update() {
+     statc_Lagenda=[0,0,0,0,0,0,0];
+     statc_Alfayha=[0,0,0,0,0,0,0];
+     statc_Alnoor=[0,0,0,0,0,0,0];
+     statc_Alandalus=[0,0,0,0,0,0,0];
+     statc_Alamber=[0,0,0,0,0,0,0];
         table.clearData();
         let newRows = [];
         for (let jndex = xmlDoc.getElementsByTagName("ResID").length - 1; jndex >= 0; jndex--) {
@@ -642,8 +625,69 @@ new Chart(ctx, {
             dateconv = new Date(parseInt(xmlDoc.getElementsByTagName("DateOfEntrie")[jndex].childNodes[0].nodeValue));
             formattedStringDate = dateconv.toLocaleString();
             newRows.push({ UserName: xmlDoc.getElementsByTagName("HostName")[jndex].childNodes[0].nodeValue, Restaurant: xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue, Room_Number: xmlDoc.getElementsByTagName("RoomNumber")[jndex].childNodes[0].nodeValue, Reservation_Number: xmlDoc.getElementsByTagName("ResID")[jndex].childNodes[0].nodeValue, Adult_Entered: xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue, Children_Entered: xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue, Period: xmlDoc.getElementsByTagName("Period")[jndex].childNodes[0].nodeValue, Time_Of_Entry: formattedStringDate });
+            var t=new Date(formattedStringDate)
+            var t7=new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            if(t>t7){
+            if (xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue=="Lagenda") {
+                statc_Lagenda[t.getDay()]=parseInt(statc_Lagenda[t.getDay()])+(parseInt(xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue) + parseInt(xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue))
+            }else if (xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue=="Alfayha") {
+                statc_Alfayha[t.getDay()]=parseInt(statc_Alfayha[t.getDay()])+(parseInt(xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue) + parseInt(xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue))
+            }else if (xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue=="Alnoor") {
+                statc_Alnoor[t.getDay()]=parseInt(statc_Alnoor[t.getDay()])+(parseInt(xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue) + parseInt(xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue))
+            }else if (xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue=="Alandalus") {
+                statc_Alandalus[t.getDay()]=parseInt(statc_Alandalus[t.getDay()])+(parseInt(xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue) + parseInt(xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue))
+            }else if (xmlDoc.getElementsByTagName("Restaurant")[jndex].childNodes[0].nodeValue=="Alamber") {
+                statc_Alamber[t.getDay()]=parseInt(statc_Alamber[t.getDay()])+(parseInt(xmlDoc.getElementsByTagName("ADEnt")[jndex].childNodes[0].nodeValue) + parseInt(xmlDoc.getElementsByTagName("CHEnt")[jndex].childNodes[0].nodeValue))
+            }
+        }
         }
         table.setData(newRows, true);
+        CreateGraph("Update");
+    }
+
+    ctx="";
+    chart="";
+    function CreateGraph(CreateCAN) {
+if(CreateCAN=="Create"){
+         ctx = document.getElementById('chartjs-bar');
+
+const data = {
+    labels: ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    datasets: [
+        { label: 'Lagenda', data: statc_Lagenda, backgroundColor: '#CB4335' },
+        { label: 'Alfayha', data: statc_Alfayha, backgroundColor: '#1F618D' },
+        { label: 'Alnoor', data: statc_Alnoor, backgroundColor: '#F1C40F' },
+        { label: 'Alandalus', data: statc_Alandalus, backgroundColor: '#27AE60' },
+        { label: 'Alamber', data: statc_Alamber, backgroundColor: '#884EA0' }
+    ]
+};
+
+// Create the chart
+chart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+        tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+        responsive: true,
+        scales: {
+            x: { stacked: true },
+            y: { beginAtZero: true, stacked: true }
+        }
+    }
+});}else if (CreateCAN=="Update") {
+    chart.data.datasets[0].data=statc_Lagenda;
+    chart.data.datasets[1].data=statc_Alfayha;
+    chart.data.datasets[2].data=statc_Alnoor;
+    chart.data.datasets[3].data=statc_Alandalus;
+    chart.data.datasets[4].data=statc_Alamber;
+    chart.update();
+}else{
+
+}
+
     }
     async function UpdateRES() {
         currentDate = new Date();
@@ -681,10 +725,12 @@ new Chart(ctx, {
         else {
             alert("Cannot Send Update, please check guest availability")
         }
+ 
     }
     async function GetRoomDetail(inf) {
         getfiles()
     };
+    CreateGraph("Create");
 </script>
 
 </html>
