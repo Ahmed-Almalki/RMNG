@@ -497,11 +497,20 @@ function timeinterval() {
                 document.getElementById('id41u11').innerHTML = Reservation_Dtl.ADULTS['#text'];
                 document.getElementById('id41u11').innerHTML = Reservation_Dtl.ADULTS['#text'];
                 document.getElementById('id41u22').innerHTML = Reservation_Dtl.CHILDREN['#text'];
+
+                    if(Reservation_Dtl.RESV_STATUS['#text'] == 'CHECKED OUT'){
+                                document.getElementById('i1diwy1').max = 0
+                                    document.getElementById('id41u1112').innerHTML='Room Is Checked Out Please wait for update';
+                                document.getElementById('i1diwy1').max = 0
+                                    document.getElementById('id41u2212').innerHTML='Room Is Checked Out Please wait for update';        
+                    }
                 AdEntered = 0;
                 ChEntered = 0;
                 enter = false
                 found = true
             }
+
+                
             for (let index = 0; index < length_conf; index++) {
                 if (xmlDoc.getElementsByTagName("RESV_STATUS")[index].childNodes[0].nodeValue == "CHECKED IN") {
                     if (xmlDoc.getElementsByTagName("ROOM")[index].childNodes[0].nodeValue == RoomNmuber) {
