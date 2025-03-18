@@ -531,6 +531,14 @@ function timeinterval() {
                             if (enter) {
                                 document.getElementById('id41u1112').innerHTML = document.getElementById('id41u11').innerHTML - AdEntered;
                                 document.getElementById('id41u2212').innerHTML = document.getElementById('id41u22').innerHTML - ChEntered;
+
+                                                                if ( document.getElementById('id41u1112').innerHTML == '') {
+                                document.getElementById('i1diwy1').max = 0
+                                    document.getElementById('id41u1112').innerHTML='0';
+                                }                                if ( document.getElementById('id41u2212').innerHTML == '') {
+                                document.getElementById('i1diwy1').max = 0
+                                    document.getElementById('id41u2212').innerHTML='0';
+                                }
                                 document.getElementById('i1diwy1').max = document.getElementById('id41u1112').innerHTML
                                 document.getElementById('i1diwy2').max = document.getElementById('id41u2212').innerHTML
                                 document.getElementById('i1diwy1').min = 0;
@@ -538,6 +546,14 @@ function timeinterval() {
                                 document.getElementById('i1diwy1').value = 0;
                                 document.getElementById('i1diwy2').value = 0;
                             } else {
+                                                                                                if ( document.getElementById('id41u1112').innerHTML == '') {
+                                document.getElementById('i1diwy1').max = 0
+                                    document.getElementById('id41u1112').innerHTML='0';
+                                }                                if ( document.getElementById('id41u2212').innerHTML == '') {
+                                document.getElementById('i1diwy1').max = 0
+                                    document.getElementById('id41u2212').innerHTML='0';
+                                }
+                                
                                 document.getElementById('id41u1112').innerHTML = document.getElementById('id41u11').innerHTML;
                                 document.getElementById('id41u2212').innerHTML = document.getElementById('id41u22').innerHTML;
 
@@ -716,6 +732,13 @@ chart = new Chart(ctx, {
                         document.getElementById('i1diwy1').value = 0;
                         document.getElementById('i1diwy2').value = 0;
                         showPage();
+                                                                                                                    if ( document.getElementById('id41u1112').innerHTML == '') {
+                                document.getElementById('i1diwy1').max = 0
+                                    document.getElementById('id41u1112').innerHTML='0';
+                                }                                if ( document.getElementById('id41u2212').innerHTML == '') {
+                                document.getElementById('i1diwy1').max = 0
+                                    document.getElementById('id41u2212').innerHTML='0';
+                                }
                 }else{
 
 
