@@ -498,7 +498,7 @@ function timeinterval() {
                 document.getElementById('id41u11').innerHTML = Reservation_Dtl.ADULTS['#text'];
                 document.getElementById('id41u22').innerHTML = Reservation_Dtl.CHILDREN['#text'];
 
-                    if(Reservation_Dtl.RESV_STATUS['#text'] == 'CHECKED OUT'){
+                    if(Reservation_Dtl.RESV_STATUS['#text'] != 'CHECKED IN'){
                                 document.getElementById('i1diwy1').max = 0
                                     document.getElementById('id41u1112').innerHTML='Room Is Not Checked in Please wait for update';
                                 document.getElementById('i1diwy1').max = 0
